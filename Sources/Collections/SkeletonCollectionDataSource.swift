@@ -71,6 +71,9 @@ extension SkeletonCollectionDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
+        if let cell = originalCollectionViewDataSource?.collectionSkeletonView(collectionView, supplementaryViewOfKind: kind, at: indexPath) {
+            return cell
+        }
         
         if let viewIdentifier = originalCollectionViewDataSource?.collectionSkeletonView(collectionView, supplementaryViewIdentifierOfKind: kind, at: indexPath) {
             
