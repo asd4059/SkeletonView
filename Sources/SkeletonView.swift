@@ -7,8 +7,8 @@ public extension UIView {
     ///
     /// - Parameters:
     ///   - color: The color of the skeleton. Defaults to `SkeletonAppearance.default.tintColor`.
-    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.none`.
-    func showSkeleton(usingColor color: UIColor = SkeletonAppearance.default.tintColor, transition: SkeletonTransitionStyle = .none) {
+    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.crossDissolve(0.25)`.
+    func showSkeleton(usingColor color: UIColor = SkeletonAppearance.default.tintColor, transition: SkeletonTransitionStyle = .crossDissolve(0.25)) {
         let config = SkeletonConfig(type: .solid, colors: [color], transition: transition)
         showSkeleton(skeletonConfig: config)
     }
@@ -17,8 +17,8 @@ public extension UIView {
     ///
     /// - Parameters:
     ///   - gradient: The gradient of the skeleton. Defaults to `SkeletonAppearance.default.gradient`.
-    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.none`.
-    func showGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonAppearance.default.gradient, transition: SkeletonTransitionStyle = .none) {
+    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.crossDissolve(0.25)`.
+    func showGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonAppearance.default.gradient, transition: SkeletonTransitionStyle = .crossDissolve(0.25)) {
         let config = SkeletonConfig(type: .gradient, colors: gradient.colors, transition: transition)
         showSkeleton(skeletonConfig: config)
     }
@@ -30,8 +30,8 @@ public extension UIView {
     /// - Parameters:
     ///   - color: The color of skeleton. Defaults to `SkeletonAppearance.default.tintColor`.
     ///   - animation: The animation of the skeleton. Defaults to `nil`.
-    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.none`.
-    func showAnimatedSkeleton(usingColor color: UIColor = SkeletonAppearance.default.tintColor, animation: SkeletonLayerAnimation? = nil, transition: SkeletonTransitionStyle = .none) {
+    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.crossDissolve(0.25)`.
+    func showAnimatedSkeleton(usingColor color: UIColor = SkeletonAppearance.default.tintColor, animation: SkeletonLayerAnimation? = nil, transition: SkeletonTransitionStyle = .crossDissolve(0.25)) {
         let config = SkeletonConfig(type: .solid, colors: [color], animated: true, animation: animation, transition: transition)
         showSkeleton(skeletonConfig: config)
     }
@@ -43,8 +43,8 @@ public extension UIView {
     /// - Parameters:
     ///   - gradient: The gradient of the skeleton. Defaults to `SkeletonAppearance.default.gradient`.
     ///   - animation: The animation of the skeleton. Defaults to `nil`.
-    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.none`.
-    func showAnimatedGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonAppearance.default.gradient, animation: SkeletonLayerAnimation? = nil, transition: SkeletonTransitionStyle = .none) {
+    ///   - transition: The style of the transition when the skeleton appears. Defaults to `.crossDissolve(0.25)`.
+    func showAnimatedGradientSkeleton(usingGradient gradient: SkeletonGradient = SkeletonAppearance.default.gradient, animation: SkeletonLayerAnimation? = nil, transition: SkeletonTransitionStyle = .crossDissolve(0.25)) {
         let config = SkeletonConfig(type: .gradient, colors: gradient.colors, animated: true, animation: animation, transition: transition)
         showSkeleton(skeletonConfig: config)
     }
@@ -74,7 +74,7 @@ public extension UIView {
         recursiveLayoutSkeletonIfNeeded(root: self)
     }
     
-    func hideSkeleton(reloadDataAfter reload: Bool = true, transition: SkeletonTransitionStyle = .none) {
+    func hideSkeleton(reloadDataAfter reload: Bool = true, transition: SkeletonTransitionStyle = .crossDissolve(0.25)) {
         flowDelegate?.willBeginHidingSkeletons(rootView: self)
         recursiveHideSkeleton(reloadDataAfter: reload, transition: transition, root: self)
     }
@@ -94,11 +94,13 @@ public extension UIView {
 
 extension UIView {
     @objc func skeletonLayoutSubviews() {
+        skeletonLayoutSubviews()
         guard isSkeletonActive else { return }
         layoutSkeletonIfNeeded()
     }
 
     @objc func skeletonTraitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        skeletonTraitCollectionDidChange(previousTraitCollection)
         guard isSkeletonActive, let config = currentSkeletonConfig else { return }
         updateSkeleton(skeletonConfig: config)
     }
@@ -111,7 +113,7 @@ extension UIView {
     }
 
     private func recursiveShowSkeleton(skeletonConfig config: SkeletonConfig, root: UIView? = nil) {
-        guard !isSkeletonActive else { return }
+        guard !isSkeletonActive && isSkeletonable else { return }
         currentSkeletonConfig = config
         swizzleLayoutSubviews()
         swizzleTraitCollectionDidChange()
@@ -129,8 +131,8 @@ extension UIView {
 
     private func showSkeletonIfNotActive(skeletonConfig config: SkeletonConfig) {
         guard !isSkeletonActive else { return }
-        isUserInteractionEnabled = false
         saveViewState()
+        isUserInteractionEnabled = false
         prepareViewForSkeleton()
         addSkeletonLayer(skeletonConfig: config)
     }
@@ -181,15 +183,14 @@ extension UIView {
         guard isSkeletonActive else { return }
         currentSkeletonConfig?.transition = transition
         isUserInteractionEnabled = true
+        removeDummyDataSourceIfNeeded(reloadAfter: reload)
         subviewsSkeletonables.recursiveSearch(leafBlock: {
             recoverViewState(forced: false)
             removeSkeletonLayer()
         }) { subview in
             subview.recursiveHideSkeleton(reloadDataAfter: reload, transition: transition)
         }
-
-        removeDummyDataSourceIfNeeded(reloadAfter: reload)
-
+        
         if let root = root {
             flowDelegate?.didHideSkeletons(rootView: root)
         }

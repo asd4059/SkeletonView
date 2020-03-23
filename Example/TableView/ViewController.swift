@@ -13,7 +13,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableview: UITableView! {
         didSet {
             tableview.rowHeight = UITableView.automaticDimension
+            tableview.sectionHeaderHeight = UITableView.automaticDimension
+            tableview.sectionFooterHeight = UITableView.automaticDimension
             tableview.estimatedRowHeight = 120.0
+            tableview.estimatedSectionFooterHeight = 20.0
+            tableview.estimatedSectionHeaderHeight = 20.0
+            tableview.register(HeaderFooterSection.self, forHeaderFooterViewReuseIdentifier: "HeaderIdentifier")
+            tableview.register(HeaderFooterSection.self, forHeaderFooterViewReuseIdentifier: "FooterIdentifier")
         }
     }
     
@@ -45,6 +51,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.isSkeletonable = true
+        transitionDurationStepper.value = 0.25
         view.showAnimatedSkeleton()
     }
     
@@ -178,3 +185,26 @@ extension ViewController: SkeletonTableViewDataSource {
     }
 }
 
+extension ViewController: SkeletonTableViewDelegate {
+    func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+        return "HeaderIdentifier"
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView
+            .dequeueReusableHeaderFooterView(withIdentifier: "HeaderIdentifier") as! HeaderFooterSection
+        header.titleLabel.text = "header => \(section)"
+        return header
+    }
+
+    func collectionSkeletonView(_ skeletonView: UITableView, identifierForFooterInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+        return "FooterIdentifier"
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footer = tableView
+            .dequeueReusableHeaderFooterView(withIdentifier: "FooterIdentifier") as! HeaderFooterSection
+        footer.titleLabel.text = "footer => \(section)"
+        return footer
+    }
+}

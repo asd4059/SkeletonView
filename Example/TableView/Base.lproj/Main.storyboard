@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Va7-1y-Tel">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Va7-1y-Tel">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -66,7 +66,6 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UCB-SP-lQk">
                                 <rect key="frame" x="0.0" y="287" width="375" height="282"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" red="0.1061807256" green="0.84678786989999999" blue="0.031482450150000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellIdentifier" rowHeight="120" id="2dN-Bd-tdy" customClass="Cell" customModule="SkeletonViewExample" customModuleProvider="target">
@@ -87,12 +86,12 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhU-1t-AaI" userLabel="Label">
-                                                    <rect key="frame" x="118" y="29" width="237" height="20.333333333333329"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhU-1t-AaI" userLabel="Label">
+                                                    <rect key="frame" x="118" y="29" width="237" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="71" id="HRL-cI-ieC"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                     <userDefinedRuntimeAttributes>
@@ -108,6 +107,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="oiE-tt-nc2" firstAttribute="leading" secondItem="7IN-F3-Mr6" secondAttribute="leadingMargin" id="1be-ak-AH1"/>
+                                                <constraint firstAttribute="bottom" secondItem="oiE-tt-nc2" secondAttribute="bottom" constant="20" id="CKt-oA-eBI"/>
                                                 <constraint firstItem="oiE-tt-nc2" firstAttribute="top" secondItem="7IN-F3-Mr6" secondAttribute="topMargin" constant="7" id="EKn-ST-LDX"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="VhU-1t-AaI" secondAttribute="trailing" constant="5" id="I7C-Bq-mfK"/>
                                                 <constraint firstItem="VhU-1t-AaI" firstAttribute="leading" secondItem="oiE-tt-nc2" secondAttribute="trailing" constant="21" id="Ojr-Kz-1k6"/>
@@ -131,6 +131,7 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="Hxi-nC-gbY"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Z10-Nx-iGb"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XgY-1a-UGc">
@@ -189,13 +190,13 @@
                                             <action selector="showOrHideSkeleton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ma1-WX-Dzy"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fade Duration: 0 sec" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrw-PM-jJJ">
-                                        <rect key="frame" x="113.66666666666667" y="130" width="141.33333333333331" height="18"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fade Duration: 0.25 sec" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrw-PM-jJJ">
+                                        <rect key="frame" x="92.333333333333329" y="130" width="162.66666666666669" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="5" stepValue="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="l4N-LL-ZrJ">
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.25" maximumValue="5" stepValue="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="l4N-LL-ZrJ">
                                         <rect key="frame" x="263" y="123" width="94" height="32"/>
                                         <connections>
                                             <action selector="transitionDurationStepperAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="jPN-df-fNs"/>
@@ -242,7 +243,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="wQY-ap-3n3"/>
@@ -260,7 +261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2682" y="340"/>
+            <point key="canvasLocation" x="-2682.4000000000001" y="339.90147783251234"/>
         </scene>
         <!--Item-->
         <scene sceneID="Cfc-AT-AS1">
