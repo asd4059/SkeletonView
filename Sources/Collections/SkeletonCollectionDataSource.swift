@@ -37,7 +37,7 @@ extension SkeletonCollectionDataSource: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = originalTableViewDataSource?.collectionSkeletonView(tableView, cellForRowAt: indexPath) {
-            skeletonCellIfContainerSkeletonIsActive(container: tableView, cell: cell)
+            skeletonViewIfContainerSkeletonIsActive(container: tableView, view: cell)
             return cell
         }
 
@@ -60,7 +60,7 @@ extension SkeletonCollectionDataSource: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = originalCollectionViewDataSource?.collectionSkeletonView(collectionView, cellForRowAt: indexPath) {
-            skeletonCellIfContainerSkeletonIsActive(container: collectionView, cell: cell)
+            skeletonViewIfContainerSkeletonIsActive(container: collectionView, view: cell)
             return cell
         }
 
